@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using Excel = Microsoft.Office.Interop.Excel;
 //using Office = Microsoft.Office.Core;
-using Microsoft.Office.Tools.Excel;
+//using Microsoft.Office.Tools.Excel;
 
 namespace ExcelAddIn1
 {
@@ -20,7 +20,8 @@ namespace ExcelAddIn1
         }
 
 
-
+        #region Накладная
+        
         // Some vars
         private const int firstLine = 9;
         //private const string priceList = "Прайс";
@@ -90,8 +91,7 @@ namespace ExcelAddIn1
                 }
             }            
         }
-
-
+        
 
         /// <summary>
         /// Adds line using article
@@ -159,10 +159,10 @@ namespace ExcelAddIn1
                 }
             }
         }
-
-
-
-
+        
+        /// <summary>
+        /// Deletes last added line
+        /// </summary>
         public void DeleteLastLine()
         {
             var activeSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;
@@ -186,9 +186,10 @@ namespace ExcelAddIn1
                 }
             }
         }
-
-
-
+        
+        /// <summary>
+        /// Adds bottom of the table
+        /// </summary>
         public void AddSummary()
         {
             var activeSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;
@@ -245,8 +246,9 @@ namespace ExcelAddIn1
             }
         }
                 
-
-
+        /// <summary>
+        /// Shows barcode column
+        /// </summary>
         public void ShowBarCodeColumn()
         {
             var activeSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;
@@ -254,12 +256,94 @@ namespace ExcelAddIn1
             column.ColumnWidth = 14;
         }
 
+        /// <summary>
+        /// Hides barcode column
+        /// </summary>
         public void HideBarCodeColumn()
         {
             var activeSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;
             var column = activeSheet.Range["E1"];
             column.ColumnWidth = 0;
         }
+
+        #endregion
+
+        #region Ценники
+
+        /// <summary>
+        /// Creates new sheet with price  taags
+        /// </summary>
+        public void CreatePriceTagSheet()
+        {
+            var firstSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;            
+
+            Excel.Worksheet newWorksheet;
+            newWorksheet = (Excel.Worksheet)this.Application.Worksheets.Add();
+
+            // установить ширину столбиков на новом листе
+            char[] cols = { 'A', 'E', 'I' };
+
+            foreach (char col in cols)
+            {
+                var cell = newWorksheet.Range[$"{col}1"];                
+                //14.29 2.86 10.14 2.57 ширина
+                cell.ColumnWidth = 14.29;
+                cell.Offset[0, 1].ColumnWidth = 2.86;
+                cell.Offset[0, 2].ColumnWidth = 10.14;
+                cell.Offset[0, 3].ColumnWidth = 2.57;
+            }
+
+            CreatePriceTag(newWorksheet.Range["A1"], new string[3]);
+            
+            // цикл по первому листу
+
+            // for ()
+            // перевести число в индекс ячейки
+            // получить ячейку с листа
+            // создать ценник
+
+            //Globals.ThisAddIn.Application.ActiveWindow.View = Excel.XlWindowView.xlPageLayoutView;
+
+
+
+
+
+        }
+
+
+        private void CreatePriceTag(Excel.Range firstCell, string[] info)
+        {
+            var workSheet = firstCell.Worksheet;            
+
+            workSheet.Range[firstCell.Offset[1, 0], firstCell.Offset[1, 1]].Merge();
+            workSheet.Range[firstCell.Offset[1, 2], firstCell.Offset[1, 3]].Merge();
+
+            workSheet.Range[firstCell.Offset[3, 0], firstCell.Offset[3, 1]].Merge();
+            workSheet.Range[firstCell.Offset[3, 2], firstCell.Offset[3, 3]].Merge();
+
+            workSheet.Range[firstCell, firstCell.Offset[0, 3]].Merge();
+
+
+
+        }
+
+        private string GetStartCell(int idx)
+        {
+            // A = 65
+            const int width = 4;
+            const int height = 4;
+
+            int row = (idx - 1) / 3;
+            int col = (idx - 1) % 3;
+
+            char excelCol = (char)(col * width + 65);
+
+            return $"{excelCol}{row * height + 1}";
+        }
+
+
+
+        #endregion
 
         #region Код, автоматически созданный VSTO
 

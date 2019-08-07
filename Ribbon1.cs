@@ -17,8 +17,8 @@ namespace ExcelAddIn1
 
         private void Button2_Click(object sender, RibbonControlEventArgs e)
         {
-            var inputForm = new InputForm() { inputType = InputForm.InputType.Article, Text = "Ввод артикула"};
-            inputForm.Show();
+            var inputForm = new InputForm() { inputType = InputForm.InputType.Article, Text = "Ввод артикула" };            
+            inputForm.Show();            
         }
 
         private void Button4_Click(object sender, RibbonControlEventArgs e)
@@ -34,6 +34,11 @@ namespace ExcelAddIn1
         private void Button3_Click(object sender, RibbonControlEventArgs e)
         {
             Globals.ThisAddIn.AddSummary();
+        }
+
+        private void Button6_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.CreatePriceTagSheet();
         }
     }
 }
