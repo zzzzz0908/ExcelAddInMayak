@@ -20,13 +20,12 @@ namespace ExcelAddIn1
         {
         }
 
-
-        #region Накладная
-        
         // Some vars
         private const int firstLine = 9;
         //private const string priceList = "Прайс";
+        
 
+        #region Накладная
 
         /// <summary>
         /// Adds line using barcode
@@ -276,15 +275,14 @@ namespace ExcelAddIn1
         /// </summary>
         public void CreatePriceTagSheet()
         {
-            var firstSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;            
+            var firstSheet = this.Application.ActiveSheet as Excel.Worksheet;            
 
             Excel.Worksheet newWorksheet;
             newWorksheet = (Excel.Worksheet)this.Application.Worksheets.Add();
-            //Globals.ThisAddIn.Application.ActiveWindow.View = Excel.XlWindowView.xlPageLayoutView;
-
-
-            
+            //newWorksheet = CreateWorksheet((Excel.Worksheets)this.Application.Worksheets);
+            //Globals.ThisAddIn.Application.ActiveWindow.View = Excel.XlWindowView.xlPageLayoutView;            
             //Thread.Sleep(300);
+
             // установить ширину столбиков на новом листе
             char[] cols = { 'A', 'E', 'I' };
 
@@ -296,18 +294,15 @@ namespace ExcelAddIn1
                 cell.Offset[0, 1].ColumnWidth = 2.86;
                 cell.Offset[0, 2].ColumnWidth = 10.14;
                 cell.Offset[0, 3].ColumnWidth = 2.57;
-            }
-
-            //CreatePriceTag(newWorksheet.Range["A1"], new string[3]);
+            }                     
+             
+            var range = firstSheet.Range["A1:A100"];
 
             // цикл по первому листу
-
             // for ()
             // перевести число в индекс ячейки
             // получить ячейку с листа
             // создать ценник
-             
-            var range = firstSheet.Range["A1:A100"];
 
             foreach (Excel.Range cell in range.Cells)
             {
@@ -424,6 +419,28 @@ namespace ExcelAddIn1
             workSheet.Range[firstCell, firstCell.Offset[0, 3]].Merge();
 
             // название товара
+            int nameLength = info[0].Length;
+            firstCell.Value2 = info[0];
+            firstCell.Font.Size = 12;
+            firstCell.WrapText = true;
+            firstCell.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+
+            if (nameLength <= 56) firstCell.Font.Size = 14;
+            if (nameLength <= 44) firstCell.Font.Size = 16;
+            if (nameLength <= 34) firstCell.Font.Size = 18;
+
+            if (nameLength <= 19)
+            {
+                firstCell.Font.Size = 20;
+                firstCell.WrapText = false;
+            }
+
+            if (nameLength <= 16)
+            {
+                firstCell.Font.Size = 22;
+                firstCell.WrapText = false;
+            }
+            
         }
 
         private string GetStartCell(int idx)
@@ -440,6 +457,10 @@ namespace ExcelAddIn1
             return $"{excelCol}{row * height + 1}";
         }
 
+        private Excel.Worksheet CreateWorksheet(Excel.Worksheets worksheets)
+        {
+            return worksheets.Add();
+        }
 
 
         #endregion
