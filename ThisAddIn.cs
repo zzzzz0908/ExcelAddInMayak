@@ -275,6 +275,7 @@ namespace ExcelAddIn1
         /// </summary>
         public void CreatePriceTagSheet()
         {
+            this.Application.ScreenUpdating = false;
             var firstSheet = this.Application.ActiveSheet as Excel.Worksheet;            
 
             Excel.Worksheet newWorksheet;
@@ -345,6 +346,7 @@ namespace ExcelAddIn1
             newWorksheet.PageSetup.LeftMargin = margin;
             newWorksheet.PageSetup.RightMargin = margin;
 
+            this.Application.ScreenUpdating = true;
         }
 
         /// <summary>
@@ -457,10 +459,7 @@ namespace ExcelAddIn1
             return $"{excelCol}{row * height + 1}";
         }
 
-        private Excel.Worksheet CreateWorksheet(Excel.Worksheets worksheets)
-        {
-            return worksheets.Add();
-        }
+        
 
 
         #endregion
