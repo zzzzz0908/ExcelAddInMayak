@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Threading;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.Diagnostics;
 //using Office = Microsoft.Office.Core;
 //using Microsoft.Office.Tools.Excel;
 
@@ -275,14 +276,17 @@ namespace ExcelAddIn1
         /// </summary>
         public void CreatePriceTagSheet()
         {
+#if DEBUG
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+#endif
+
             this.Application.ScreenUpdating = false;
             var firstSheet = this.Application.ActiveSheet as Excel.Worksheet;            
-
+            
             Excel.Worksheet newWorksheet;
             newWorksheet = (Excel.Worksheet)this.Application.Worksheets.Add();
-            //newWorksheet = CreateWorksheet((Excel.Worksheets)this.Application.Worksheets);
-            //Globals.ThisAddIn.Application.ActiveWindow.View = Excel.XlWindowView.xlPageLayoutView;            
-            //Thread.Sleep(300);
+            
 
             // установить ширину столбиков на новом листе
             char[] cols = { 'A', 'E', 'I' };
@@ -298,12 +302,7 @@ namespace ExcelAddIn1
             }                     
              
             var range = firstSheet.Range["A1:A100"];
-
-            // цикл по первому листу
-            // for ()
-            // перевести число в индекс ячейки
-            // получить ячейку с листа
-            // создать ценник
+            
 
             foreach (Excel.Range cell in range.Cells)
             {
@@ -347,6 +346,11 @@ namespace ExcelAddIn1
             newWorksheet.PageSetup.RightMargin = margin;
 
             this.Application.ScreenUpdating = true;
+
+#if DEBUG
+            stopwatch.Stop();
+            newWorksheet.Range["M1"].Value2 = stopwatch.ElapsedMilliseconds;
+#endif
         }
 
         /// <summary>
