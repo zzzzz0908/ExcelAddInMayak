@@ -38,7 +38,7 @@ namespace ExcelAddIn1
 
         private void Button6_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.CreatePriceTagSheet();
+            Globals.ThisAddIn.CreatePriceTagSheet(ThisAddIn.PriceTagSize.Small);
         }
     }
 }

@@ -21,12 +21,21 @@ namespace ExcelAddIn1
         {
         }
 
-        // Some vars
-        private const int firstLine = 9;
-        //private const string priceList = "Прайс";
+
+        public enum PriceTagSize
+        {
+            Small = 0,
+            Big = 1
+        }
+
+        
         
 
         #region Накладная
+        
+            
+        // Some vars
+        private const int firstLine = 9;
 
         /// <summary>
         /// Adds line using barcode
@@ -272,48 +281,51 @@ namespace ExcelAddIn1
         #region Ценники
 
         /// <summary>
-        /// Creates new sheet with price  taags
+        /// Creates new sheet with price  tags
         /// </summary>
-        public void CreatePriceTagSheet()
+        public void CreatePriceTagSheet(PriceTagSize tagSize)
         {
 #if DEBUG
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 #endif
+            int colCount;
+            double[] colsWidth = new double[1];
+
+            switch (tagSize)
+            {
+                case PriceTagSize.Small:
+                    colCount = 3;
+                    colsWidth = new double[] { 14.29, 2.86, 10.14, 2.57, 14.29, 2.86, 10.14, 2.57, 14.29, 2.86, 10.14, 2.57 };
+                    break;
+                case PriceTagSize.Big:
+                    colCount = 2;
+                    colsWidth = new double[] { 14.29, 2.86, 10.14, 2.57, 14.29, 2.86, 10.14, 2.57 };
+                    break;
+            }
+
 
             this.Application.ScreenUpdating = false;
             var firstSheet = this.Application.ActiveSheet as Excel.Worksheet;            
             
-            Excel.Worksheet newWorksheet;
-            newWorksheet = (Excel.Worksheet)this.Application.Worksheets.Add();
-            
+            Excel.Worksheet newWorksheet = (Excel.Worksheet)this.Application.Worksheets.Add();
 
-            // установить ширину столбиков на новом листе
-            char[] cols = { 'A', 'E', 'I' };
+            // установить ширину столбиков на новом листе 
+            newWorksheet.Range["A1:L1"].ColumnWidth = colsWidth;
 
-            foreach (char col in cols)
-            {
-                var cell = newWorksheet.Range[$"{col}1"];                
-                //14.29 2.86 10.14 2.57 ширина
-                cell.ColumnWidth = 14.29;
-                cell.Offset[0, 1].ColumnWidth = 2.86;
-                cell.Offset[0, 2].ColumnWidth = 10.14;
-                cell.Offset[0, 3].ColumnWidth = 2.57;
-            }                     
-             
-            var range = firstSheet.Range["A1:A100"];
-            
+            //var range = firstSheet.Range["A1:A100"];
 
-            foreach (Excel.Range cell in range.Cells)
-            {
-                string value = Convert.ToString(cell.Value2);
+            object[,] values = firstSheet.Range["A1:G100"].Value2;
 
-                if (value != null)
+
+            for (int i = 1; i <= values.GetLength(0); i++)
+            {       
+                if (values[i, 1] != null)
                 {
-                    int idx = cell.Row;
-                    var targetCell = newWorksheet.Range[GetStartCell(idx)];
+                    //int idx = cell.Row;
+                    var targetCell = newWorksheet.Range[GetStartCell(i)];
 
-                    if (idx % 3 == 1)
+                    if (i % 3 == 1)
                     {
                         // 43.50 18.00 28.50 24.00 высота
                         targetCell.RowHeight = 43.50;
@@ -323,10 +335,10 @@ namespace ExcelAddIn1
                     }
                     // массив данных для ценника: 0 - название, 1 - артикул, 2 - цена опт, 3 - цена розница
                     string[] info = new string[4];
-                    info[0] = Convert.ToString(cell.Offset[0, 3].Value2);
-                    info[1] = Convert.ToString(cell.Offset[0, 2].Value2);
-                    info[2] = Convert.ToString(cell.Offset[0, 5].Value2);
-                    info[3] = Convert.ToString(cell.Offset[0, 6].Value2); 
+                    info[0] = Convert.ToString(values[i, 4]);
+                    info[1] = Convert.ToString(values[i, 3]);
+                    info[2] = Convert.ToString(values[i, 6]);
+                    info[3] = Convert.ToString(values[i, 7]);
 
                     CreatePriceTag(targetCell, info);
                 }
@@ -335,6 +347,38 @@ namespace ExcelAddIn1
                     break;
                 }
             }
+
+            //foreach (Excel.Range cell in range.Cells)
+            //{
+            //    string value = Convert.ToString(cell.Value2);
+
+            //    if (value != null)
+            //    {
+            //        int idx = cell.Row;
+            //        var targetCell = newWorksheet.Range[GetStartCell(idx)];
+
+            //        if (idx % 3 == 1)
+            //        {
+            //            // 43.50 18.00 28.50 24.00 высота
+            //            targetCell.RowHeight = 43.50;
+            //            targetCell.Offset[1, 0].RowHeight = 18.00;
+            //            targetCell.Offset[2, 0].RowHeight = 28.50;
+            //            targetCell.Offset[3, 0].RowHeight = 24.00;
+            //        }
+            //        // массив данных для ценника: 0 - название, 1 - артикул, 2 - цена опт, 3 - цена розница
+            //        string[] info = new string[4];
+            //        info[0] = Convert.ToString(cell.Offset[0, 3].Value2);
+            //        info[1] = Convert.ToString(cell.Offset[0, 2].Value2);
+            //        info[2] = Convert.ToString(cell.Offset[0, 5].Value2);
+            //        info[3] = Convert.ToString(cell.Offset[0, 6].Value2); 
+
+            //        CreatePriceTag(targetCell, info);
+            //    }
+            //    else
+            //    {
+            //        break;
+            //    }
+            //}
 
             // настроить поля
             newWorksheet.PageSetup.HeaderMargin = 0;
