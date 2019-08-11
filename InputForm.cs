@@ -29,7 +29,7 @@ namespace ExcelAddIn1
         {
             if (e.KeyChar == '\u001B')
             {
-                Globals.ThisAddIn.DeleteLastLine();
+                Invoice.DeleteLastLine();
                 e.Handled = true;
             }
             else if (e.KeyChar == '\r')
@@ -52,10 +52,10 @@ namespace ExcelAddIn1
                     switch (inputType)
                     {
                         case InputType.BarCode:
-                            Globals.ThisAddIn.AddBarCodeLine(text, priceType);
+                            Invoice.AddBarCodeLine(text, priceType);
                             break;
                         case InputType.Article:
-                            Globals.ThisAddIn.AddArticleLine(text, priceType);
+                            Invoice.AddArticleLine(text, priceType);
                             break;
                     }
                 }
