@@ -44,6 +44,7 @@
             this.button5 = this.Factory.CreateRibbonButton();
             this.group2 = this.Factory.CreateRibbonGroup();
             this.button6 = this.Factory.CreateRibbonButton();
+            this.button7 = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
@@ -109,6 +110,7 @@
             // group2
             // 
             this.group2.Items.Add(this.button6);
+            this.group2.Items.Add(this.button7);
             this.group2.Label = "Ценники";
             this.group2.Name = "group2";
             // 
@@ -120,6 +122,15 @@
             this.button6.Name = "button6";
             this.button6.ShowImage = true;
             this.button6.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button6_Click);
+            // 
+            // button7
+            // 
+            this.button7.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.button7.Image = ((System.Drawing.Image)(resources.GetObject("button7.Image")));
+            this.button7.Label = "Создать ценники для ящиков";
+            this.button7.Name = "button7";
+            this.button7.ShowImage = true;
+            this.button7.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button7_Click);
             // 
             // Ribbon1
             // 
@@ -147,6 +158,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button5;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group2;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button6;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button7;
     }
 
     partial class ThisRibbonCollection
