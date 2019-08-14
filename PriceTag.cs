@@ -7,9 +7,8 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace ExcelAddIn1
 {
     public static class PriceTag
-    {
-        #region Ценники
-
+    {        
+        
         public enum PriceTagSize
         {
             Small = 0,
@@ -18,9 +17,9 @@ namespace ExcelAddIn1
 
 
         /// <summary>
-        /// Creates new sheet with price  tags
+        /// Создает новый лсит с ценниками.
         /// </summary>
-        /// <param name="tagSize"></param>
+        /// <param name="tagSize"> Тип ценников. </param>
         public static void CreatePriceTagSheet(PriceTagSize tagSize)
         {
 #if DEBUG
@@ -33,39 +32,46 @@ namespace ExcelAddIn1
             int[] fontSize = new int[1];
             FontOptions[] fontOptions = new FontOptions[1];
 
+            // Установка параметров ценника в зависимости от типа
             switch (tagSize)
             {
                 case PriceTagSize.Small:
-
-
                     colCount = 3;
-                    colsWidth = new double[] { 14.29, 2.86, 10.14, 2.57, 14.29, 2.86, 10.14, 2.57, 14.29, 2.86, 10.14, 2.57 };
+                    colsWidth = new double[] {
+                        14.29, 2.86, 10.14, 2.57,
+                        14.29, 2.86, 10.14, 2.57,
+                        14.29, 2.86, 10.14, 2.57 };
+
                     rowsHeight = new double[] { 43.50, 18.00, 28.50, 24.00 };
                     fontSize = new int[] { 12, 18, 14, 24, 20, 18, 20, 16, 8 };
-                    fontOptions = new FontOptions[] {
-                        new FontOptions(22, 0, false),
-                        new FontOptions(20, 16, false),
-                        new FontOptions(18, 19, true),
-                        new FontOptions(16, 34, true),
-                        new FontOptions(14, 44, true),
-                        new FontOptions(12, 56, true) };
 
+                    fontOptions = new FontOptions[] {
+                        new FontOptions(size: 22, length: 0, wrap: false),
+                        new FontOptions(size: 20, length: 16, wrap: false),
+                        new FontOptions(size: 18, length: 19, wrap: true),
+                        new FontOptions(size: 16, length: 34, wrap: true),
+                        new FontOptions(size: 14, length: 44, wrap: true),
+                        new FontOptions(size: 12, length: 56, wrap: true) };
                     break;
 
                 case PriceTagSize.Big:
                     colCount = 2;
-                    colsWidth = new double[] { 23.14, 6.86, 19.43, 6.86, 23.14, 6.86, 19.43, 6.86 };
+                    colsWidth = new double[] {
+                        23.14, 6.86, 19.43, 6.86,
+                        23.14, 6.86, 19.43, 6.86 };
+
                     rowsHeight = new double[] { 57.75, 29.25, 42.75, 28.50 };
                     fontSize = new int[] { 14, 24, 22, 36, 28, 28, 28, 26, 11 };
+
                     fontOptions = new FontOptions[] {
-                        new FontOptions(36, 0, false),
-                        new FontOptions(28, 16, false),
-                        new FontOptions(24, 22, true),
-                        new FontOptions(22, 44, true),
-                        new FontOptions(20, 52, true),
-                        new FontOptions(18, 60, true),
-                        new FontOptions(16, 70, true),
-                        new FontOptions(14, 80, true) };
+                        new FontOptions(size: 36, length: 0, wrap: false),
+                        new FontOptions(size: 28, length: 16, wrap: false),
+                        new FontOptions(size: 24, length: 22, wrap: true),
+                        new FontOptions(size: 22, length: 44, wrap: true),
+                        new FontOptions(size: 20, length: 52, wrap: true),
+                        new FontOptions(size: 18, length: 60, wrap: true),
+                        new FontOptions(size: 16, length: 70, wrap: true),
+                        new FontOptions(size: 14, length: 80, wrap: true) };
                     break;
             }
 
@@ -80,7 +86,7 @@ namespace ExcelAddIn1
             // установить ширину столбиков на новом листе 
             newWorksheet.Range[$"A1:{(char)(colCount * 4 + 64)}1"].ColumnWidth = colsWidth;            
 
-
+            // Создание ценников на новом листе
             for (int i = 1; i <= values.GetLength(0); i++)
             {
                 if (values[i, 1] != null)
@@ -112,8 +118,7 @@ namespace ExcelAddIn1
                 }
             }
 
-
-
+            
             if (tagSize == PriceTagSize.Small)
             {
                 // настроить поля
@@ -134,11 +139,14 @@ namespace ExcelAddIn1
 #endif
         }
 
+        
         /// <summary>
-        /// Creates price tag
+        /// Создает ценник.
         /// </summary>
-        /// <param name="firstCell"> Upper left cell of price tag</param>
-        /// <param name="info"></param>
+        /// <param name="firstCell"> Левая верхняя ячейка ценника. </param>
+        /// <param name="info"> Массив входных данных. </param>
+        /// <param name="fontSize"> Размеры шрифтов. </param>
+        /// <param name="wrapNameCell"> Перенос текста в ячейке наименования. </param>
         private static void CreatePriceTag(Excel.Range firstCell, string[] info, int[] fontSize, bool wrapNameCell)
         {
             var workSheet = firstCell.Worksheet;
@@ -216,6 +224,13 @@ namespace ExcelAddIn1
         }
 
 
+        /// <summary>
+        /// Возвращает подходящий размер шрифта.
+        /// </summary>
+        /// <param name="textLength"> Длина текста. </param>
+        /// <param name="fontOptions"> Набор соответствий длины текста и размера шрифта. </param>
+        /// <param name="wrapNameCell"> Перенос текста в ячейке. </param>
+        /// <returns></returns>
         private static int AdjustFontSize(int textLength, FontOptions[] fontOptions, out bool wrapNameCell)
         {
             int fontSize = fontOptions[0].Size;
@@ -235,7 +250,12 @@ namespace ExcelAddIn1
         }
 
         
-
+        /// <summary>
+        /// Возвращает имя начальной ячейки
+        /// </summary>
+        /// <param name="idx"> Порядковый номер, начиная с 1. </param>
+        /// <param name="colCount"> Количество столбцов в выходной таблице. </param>
+        /// <returns></returns>
         private static string GetStartCell(int idx, int colCount)
         {
             // A = 65
@@ -249,23 +269,40 @@ namespace ExcelAddIn1
 
             return $"{excelCol}{row * height + 1}";
         }
-                       
-        #endregion
 
+
+        /// <summary>
+        /// Структура для хранения соответствия длины текста и размера шрифта.
+        /// </summary>
         private struct FontOptions
-        {
-            
+        {        
+            /// <summary>
+            /// Размер шрифта.
+            /// </summary>
             public int Size { get; }
+
+            /// <summary>
+            /// Длина входного текста.
+            /// </summary>
             public int Length { get; }
+
+            /// <summary>
+            /// Перенос текста в ячейке.
+            /// </summary>
             public bool Wrap { get; }
 
+            /// <summary>
+            /// Создает структуру с параметрами шрифта.
+            /// </summary>
+            /// <param name="size"> Размер шрифта. </param>
+            /// <param name="length"> Длина входного текста. </param>
+            /// <param name="wrap"> Перенос текста в ячейке. </param>
             public FontOptions(int size, int length, bool wrap)
             {
                 Size = size;
                 Length = length;
                 Wrap = wrap;
-            }                        
-
+            }   
         }
     }
 

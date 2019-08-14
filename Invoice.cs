@@ -5,25 +5,25 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace ExcelAddIn1
 {
     public static class Invoice
-    {
-        #region Накладная
-
-
-        // Some vars
-        private const int firstLine = 9;
+    {      
+        // Константы
+        private const int FIRST_LINE = 9;
 
         /// <summary>
-        /// Adds line using barcode
+        /// Добавляет запись по штрихкоду.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text"> Штрихкод. </param>
+        /// <param name="priceType"> Тип цены. </param>
         public static void AddBarCodeLine(string text, int priceType = 1)
         {
             var activeSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;
 
-            string range = $"E{firstLine}:E{firstLine + 500}"; // столбик штрихкодов
-            var cell = activeSheet.Range[range];
+            // столбик штрихкодов
+            string rangeName = $"E{FIRST_LINE}:E{FIRST_LINE + 500}";
+            
+            var range = activeSheet.Range[rangeName];
 
-            foreach (Excel.Range c in cell.Cells)
+            foreach (Excel.Range c in range.Cells)
             {
                 string value = Convert.ToString(c.Value2);
 
@@ -39,7 +39,7 @@ namespace ExcelAddIn1
                     c.Offset[0, 1].Value2 = 1;
 
                     int row = c.Row;
-                    c.Offset[0, -4].Value2 = row - firstLine + 1;
+                    c.Offset[0, -4].Value2 = row - FIRST_LINE + 1;
 
                     c.Offset[0, -3].FormulaLocal = $"=ВПР(E{row};Price!$B$2:$G$7000;2;ЛОЖЬ)";
                     c.Offset[0, -2].FormulaLocal = $"=ВПР(E{row};Price!$B$2:$G$7000;3;ЛОЖЬ)";
@@ -58,16 +58,13 @@ namespace ExcelAddIn1
                         c.Offset[0, 6].FormulaLocal = $"=ЕСЛИ(L{row}=\"Да\";ЕСЛИ(M{row}<$M$2; M{row};$M$2); 0)";
                     }
 
-
                     c.Offset[0, 3].FormulaLocal = $"=G{row}*(1-K{row}/100)";
 
                     c.Offset[0, 4].FormulaLocal = $"=H{row}*F{row}";
 
-
-
                     c.Offset[1, 3].Value2 = "Итого:";
                     //c.Offset[1, 2].Font.Bold = true;
-                    c.Offset[1, 4].FormulaLocal = $"=СУММ(I{firstLine}:I{row})";
+                    c.Offset[1, 4].FormulaLocal = $"=СУММ(I{FIRST_LINE}:I{row})";
 
                     var bigSum = activeSheet.Range["O3"];
                     bigSum.FormulaLocal = $"=I{row + 1}";
@@ -79,15 +76,15 @@ namespace ExcelAddIn1
 
 
         /// <summary>
-        /// Adds line using article
+        /// Добавляет запись по артикулу.
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="priceType"></param>
+        /// <param name="text"> Артикул. </param>
+        /// <param name="priceType"> Тип цены. </param>
         public static void AddArticleLine(string text, int priceType = 1)
         {
             var activeSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;
 
-            string range = $"B{firstLine}:B{firstLine + 500}"; // столбик артикулов
+            string range = $"B{FIRST_LINE}:B{FIRST_LINE + 500}"; // столбик артикулов
             var cell = activeSheet.Range[range];
 
             foreach (Excel.Range c in cell.Cells)
@@ -105,7 +102,7 @@ namespace ExcelAddIn1
                     c.Value2 = text;
 
                     int row = c.Row;
-                    c.Offset[0, -1].Value2 = row - firstLine + 1;
+                    c.Offset[0, -1].Value2 = row - FIRST_LINE + 1;
 
                     c.Offset[0, 1].FormulaLocal = $"=ВПР(B{row};Price!$C$2:$G$7000;2;ЛОЖЬ)";
                     c.Offset[0, 2].Value2 = "шт.";
@@ -126,16 +123,13 @@ namespace ExcelAddIn1
                         c.Offset[0, 9].FormulaLocal = $"=ЕСЛИ(L{row}=\"Да\";ЕСЛИ(M{row}<$M$2; M{row};$M$2); 0)";
                     }
 
-
                     c.Offset[0, 6].FormulaLocal = $"=G{row}*(1-K{row}/100)";
 
                     c.Offset[0, 7].FormulaLocal = $"=H{row}*F{row}";
 
-
-
                     c.Offset[1, 6].Value2 = "Итого:";
                     //c.Offset[1, 2].Font.Bold = true;
-                    c.Offset[1, 7].FormulaLocal = $"=СУММ(I{firstLine}:I{row})";
+                    c.Offset[1, 7].FormulaLocal = $"=СУММ(I{FIRST_LINE}:I{row})";
 
                     var bigSum = activeSheet.Range["O3"];
                     bigSum.FormulaLocal = $"=I{row + 1}";
@@ -146,13 +140,13 @@ namespace ExcelAddIn1
         }
 
         /// <summary>
-        /// Deletes last added line
+        /// Удалаяет последнюю щапись.
         /// </summary>
         public static void DeleteLastLine()
         {
             var activeSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;
 
-            string range = $"E{firstLine}:E{firstLine + 500}";
+            string range = $"E{FIRST_LINE}:E{FIRST_LINE + 500}";
             var cell = activeSheet.Range[range];
 
             foreach (Excel.Range c in cell.Cells)
@@ -162,7 +156,7 @@ namespace ExcelAddIn1
                 if (value == null)
                 {
                     int deleteRow = c.Row - 1;
-                    if (deleteRow >= firstLine)
+                    if (deleteRow >= FIRST_LINE)
                     {
                         range = $"A{c.Row - 1}:L{c.Row - 1}";
                         activeSheet.Range[range].Delete();  // последние строки сами сдвигаются вверх, надо править формулу в сумме?
@@ -173,13 +167,13 @@ namespace ExcelAddIn1
         }
 
         /// <summary>
-        /// Adds bottom of the table
+        /// Добавляет итог накладной.
         /// </summary>
         public static void AddSummary()
         {
             var activeSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;
 
-            string range = $"A{firstLine}:A{firstLine + 500}"; // первый столбик
+            string range = $"A{FIRST_LINE}:A{FIRST_LINE + 500}"; // первый столбик
             var cells = activeSheet.Range[range];
 
             foreach (Excel.Range c in cells.Cells)
@@ -223,7 +217,7 @@ namespace ExcelAddIn1
                     c.Offset[0, 8].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
 
                     //граница товаров
-                    cells = activeSheet.Range[$"A{firstLine}:I{row - 1}"];
+                    cells = activeSheet.Range[$"A{FIRST_LINE}:I{row - 1}"];
                     cells.Cells.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
 
                     break;
@@ -232,7 +226,7 @@ namespace ExcelAddIn1
         }
 
         /// <summary>
-        /// Shows barcode column
+        /// Показывает столбец со штрихкодом.
         /// </summary>
         public static void ShowBarCodeColumn()
         {
@@ -242,16 +236,13 @@ namespace ExcelAddIn1
         }
 
         /// <summary>
-        /// Hides barcode column
+        /// Скрывает столбец со штрихкодом.
         /// </summary>
         public static void HideBarCodeColumn()
         {
             var activeSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;
             var column = activeSheet.Range["E1"];
             column.ColumnWidth = 0;
-        }
-
-        #endregion
-
+        }        
     }
 }

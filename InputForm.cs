@@ -16,14 +16,12 @@ namespace ExcelAddIn1
             Article = 1
         }
 
-
         public InputType inputType { get; set; }
 
         public InputForm()
         {
             InitializeComponent();
         }
-
 
         private void TextBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -75,8 +73,6 @@ namespace ExcelAddIn1
         private void Button1_Click(object sender, EventArgs e)
         {
             textBox1.Clear();            
-        }
-
-        
+        }        
     }
 }
