@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Office.Tools.Ribbon;
+﻿using Microsoft.Office.Tools.Ribbon;
 
 namespace ExcelAddIn1
 {
@@ -23,22 +19,27 @@ namespace ExcelAddIn1
 
         private void Button4_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.ShowBarCodeColumn();
+            Invoice.ShowBarCodeColumn();
         }
 
         private void Button5_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.HideBarCodeColumn();
+            Invoice.HideBarCodeColumn();
         }
 
         private void Button3_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.AddSummary();
+            Invoice.AddSummary();
         }
 
         private void Button6_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.CreatePriceTagSheet(ThisAddIn.PriceTagSize.Small);
+            PriceTag.CreatePriceTagSheet(PriceTag.PriceTagSize.Small);
+        }
+
+        private void Button7_Click(object sender, RibbonControlEventArgs e)
+        {
+            PriceTag.CreatePriceTagSheet(PriceTag.PriceTagSize.Big);
         }
     }
 }

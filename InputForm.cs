@@ -16,7 +16,6 @@ namespace ExcelAddIn1
             Article = 1
         }
 
-
         public InputType inputType { get; set; }
 
         public InputForm()
@@ -24,12 +23,11 @@ namespace ExcelAddIn1
             InitializeComponent();
         }
 
-
         private void TextBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == '\u001B')
             {
-                Globals.ThisAddIn.DeleteLastLine();
+                Invoice.DeleteLastLine();
                 e.Handled = true;
             }
             else if (e.KeyChar == '\r')
@@ -52,10 +50,10 @@ namespace ExcelAddIn1
                     switch (inputType)
                     {
                         case InputType.BarCode:
-                            Globals.ThisAddIn.AddBarCodeLine(text, priceType);
+                            Invoice.AddBarCodeLine(text, priceType);
                             break;
                         case InputType.Article:
-                            Globals.ThisAddIn.AddArticleLine(text, priceType);
+                            Invoice.AddArticleLine(text, priceType);
                             break;
                     }
                 }
@@ -75,8 +73,6 @@ namespace ExcelAddIn1
         private void Button1_Click(object sender, EventArgs e)
         {
             textBox1.Clear();            
-        }
-
-        
+        }        
     }
 }
