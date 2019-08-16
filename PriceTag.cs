@@ -272,9 +272,9 @@ namespace ExcelAddIn1
 
 
         /// <summary>
-        /// Структура для хранения соответствия длины текста и размера шрифта.
+        /// Класс для хранения соответствия длины текста и размера шрифта.
         /// </summary>
-        private struct FontOptions
+        private class FontOptions
         {        
             /// <summary>
             /// Размер шрифта.
@@ -292,7 +292,7 @@ namespace ExcelAddIn1
             public bool Wrap { get; }
 
             /// <summary>
-            /// Создает структуру с параметрами шрифта.
+            /// Создает объект с параметрами шрифта.
             /// </summary>
             /// <param name="size"> Размер шрифта. </param>
             /// <param name="length"> Длина входного текста. </param>
