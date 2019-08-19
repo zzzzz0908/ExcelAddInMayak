@@ -78,6 +78,7 @@ namespace ExcelAddIn1
             var app = Globals.ThisAddIn.Application;
 
             app.ScreenUpdating = false;
+            app.Calculation = Excel.XlCalculation.xlCalculationManual;
 
             var firstSheet = app.ActiveSheet as Excel.Worksheet;
             object[,] values = firstSheet.Range["A1:G100"].Value2;
@@ -132,6 +133,7 @@ namespace ExcelAddIn1
             }
 
             app.ScreenUpdating = true;
+            app.Calculation = Excel.XlCalculation.xlCalculationAutomatic;
 
 #if DEBUG
             stopwatch.Stop();
