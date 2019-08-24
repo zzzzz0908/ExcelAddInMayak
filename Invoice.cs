@@ -139,6 +139,7 @@ namespace ExcelAddIn1
             }
         }
 
+
         /// <summary>
         /// Удалаяет последнюю щапись.
         /// </summary>
@@ -165,6 +166,7 @@ namespace ExcelAddIn1
                 }
             }
         }
+
 
         /// <summary>
         /// Добавляет итог накладной.
@@ -225,6 +227,7 @@ namespace ExcelAddIn1
             }
         }
 
+
         /// <summary>
         /// Показывает столбец со штрихкодом.
         /// </summary>
@@ -234,6 +237,7 @@ namespace ExcelAddIn1
             var column = activeSheet.Range["E1"];
             column.ColumnWidth = 14;
         }
+
 
         /// <summary>
         /// Скрывает столбец со штрихкодом.
