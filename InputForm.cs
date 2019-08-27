@@ -13,14 +13,23 @@ namespace ExcelAddIn1
         public enum InputType
         {
             BarCode = 0,
-            Article = 1
+            Article = 1,
+            Box = 2
         }
 
         public InputType inputType { get; set; }
+        //public string LabelText;
 
         public InputForm()
         {
             InitializeComponent();
+            
+        }
+
+        public InputForm(string labelText)
+        {
+            InitializeComponent();
+            label1.Text = labelText;
         }
 
         private void TextBox1_KeyPress(object sender, KeyPressEventArgs e)
@@ -54,6 +63,9 @@ namespace ExcelAddIn1
                             break;
                         case InputType.Article:
                             Invoice.AddArticleLine(text, priceType);
+                            break;
+                        case InputType.Box:
+                            Invoice.AddBoxLine(text, priceType);
                             break;
                     }
                 }

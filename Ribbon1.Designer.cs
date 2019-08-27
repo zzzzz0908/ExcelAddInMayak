@@ -39,6 +39,7 @@
             this.group1 = this.Factory.CreateRibbonGroup();
             this.button1 = this.Factory.CreateRibbonButton();
             this.button2 = this.Factory.CreateRibbonButton();
+            this.button8 = this.Factory.CreateRibbonButton();
             this.button3 = this.Factory.CreateRibbonButton();
             this.button4 = this.Factory.CreateRibbonButton();
             this.button5 = this.Factory.CreateRibbonButton();
@@ -62,6 +63,7 @@
             // 
             this.group1.Items.Add(this.button1);
             this.group1.Items.Add(this.button2);
+            this.group1.Items.Add(this.button8);
             this.group1.Items.Add(this.button3);
             this.group1.Items.Add(this.button4);
             this.group1.Items.Add(this.button5);
@@ -85,6 +87,15 @@
             this.button2.Name = "button2";
             this.button2.ShowImage = true;
             this.button2.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button2_Click);
+            // 
+            // button8
+            // 
+            this.button8.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.button8.Image = ((System.Drawing.Image)(resources.GetObject("button8.Image")));
+            this.button8.Label = "Сканирование упаковки";
+            this.button8.Name = "button8";
+            this.button8.ShowImage = true;
+            this.button8.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button8_Click);
             // 
             // button3
             // 
@@ -159,6 +170,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group2;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button6;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button7;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button8;
     }
 
     partial class ThisRibbonCollection

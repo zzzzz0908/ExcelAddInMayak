@@ -22,6 +22,7 @@ namespace ExcelAddIn1
             string rangeName = $"E{FIRST_LINE}:E{FIRST_LINE + 500}";
             
             var range = activeSheet.Range[rangeName];
+            
 
             foreach (Excel.Range c in range.Cells)
             {
@@ -137,6 +138,12 @@ namespace ExcelAddIn1
                     break;
                 }
             }
+        }
+
+
+        public static void AddBoxLine(string text, int priceType = 1)
+        {
+
         }
 
 

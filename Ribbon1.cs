@@ -7,13 +7,13 @@ namespace ExcelAddIn1
 
         private void Button1_Click(object sender, RibbonControlEventArgs e)
         {
-            var inputForm = new InputForm() { inputType = InputForm.InputType.BarCode };
+            var inputForm = new InputForm("Штрихкод") { inputType = InputForm.InputType.BarCode };
             inputForm.Show();
         }
 
         private void Button2_Click(object sender, RibbonControlEventArgs e)
         {
-            var inputForm = new InputForm() { inputType = InputForm.InputType.Article, Text = "Ввод артикула" };            
+            var inputForm = new InputForm("Артикул") { inputType = InputForm.InputType.Article, Text = "Ввод артикула" };          
             inputForm.Show();            
         }
 
@@ -40,6 +40,12 @@ namespace ExcelAddIn1
         private void Button7_Click(object sender, RibbonControlEventArgs e)
         {
             PriceTag.CreatePriceTagSheet(PriceTag.PriceTagSize.Big);
+        }
+
+        private void Button8_Click(object sender, RibbonControlEventArgs e)
+        {
+            var inputForm = new InputForm("Упаковка") { inputType = InputForm.InputType.Box };
+            inputForm.Show();
         }
     }
 }
