@@ -72,7 +72,7 @@ namespace ExcelAddIn1
                     c.Offset[1, 10 - inputCol].Value2 = "Итого:";                    
                     c.Offset[1, 11 - inputCol].FormulaLocal = $"=СУММ(K{FIRST_LINE}:K{row})";
 
-                    var bigSum = activeSheet.Range["O3"];
+                    var bigSum = activeSheet.Range["O1"];
                     bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 11);
 
                     break;
@@ -140,7 +140,7 @@ namespace ExcelAddIn1
                     c.Offset[1, 10 - inputCol].Value2 = "Итого:";
                     c.Offset[1, 11 - inputCol].FormulaLocal = $"=СУММ(K{FIRST_LINE}:K{row})";
 
-                    var bigSum = activeSheet.Range["O3"];
+                    var bigSum = activeSheet.Range["O1"];
                     bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 11);
 
                     break;
@@ -149,6 +149,11 @@ namespace ExcelAddIn1
         }
 
 
+        /// <summary>
+        /// Добавляет запись по штрихкоду упаковки (ящика).
+        /// </summary>
+        /// <param name="text"> Штрихкод. </param>
+        /// <param name="priceType"> Тип цены. </param>
         public static void AddBoxLine(string text, int priceType = 1)
         {
             var activeSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;
@@ -207,7 +212,7 @@ namespace ExcelAddIn1
                     c.Offset[1, 10 - inputCol].Value2 = "Итого:";
                     c.Offset[1, 11 - inputCol].FormulaLocal = $"=СУММ(K{FIRST_LINE}:K{row})";
 
-                    var bigSum = activeSheet.Range["O3"];
+                    var bigSum = activeSheet.Range["O1"];
                     bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 11);
 
                     break;
@@ -268,7 +273,7 @@ namespace ExcelAddIn1
 
                     c.Offset[3, 0].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
                     c.Offset[3, 0].WrapText = false;
-                    c.Offset[3, 0].FormulaLocal = $"=РосРуб(I{row};I{row})";
+                    c.Offset[3, 0].FormulaLocal = $"=РосРуб(K{row};K{row})";
 
                     c.Offset[5, 1].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
                     c.Offset[5, 1].WrapText = false;
