@@ -355,9 +355,69 @@ namespace ExcelAddIn1
             var activeSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;
             var column = activeSheet.Range["E1"];
             column.ColumnWidth = 0;
-        }        
+        }
 
 
+        public static void ChangePriceType(int priceType)
+        {
+            var activeSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;
+
+            string rangeName = $"A{FIRST_LINE}:A{FIRST_LINE + 500}";
+
+            var range = activeSheet.Range[rangeName];
+
+            //int inputCol = 5;
+            //string valueSheet = "BoxPrice";
+
+            foreach (Excel.Range c in range.Cells)
+            {
+                string value = Convert.ToString(c.Value2);
+
+                if (value == null)
+                {
+                    break;
+                }
+                else
+                {
+                    //int row = c.Row;
+                    string formula = c.Offset[0, 8].FormulaLocal;
+                    string[] formulaParams = formula.Split(';');
+                    string priceRangeName = formulaParams[1];
+                    char startColumnLetter = priceRangeName.Substring(priceRangeName.IndexOf("!$") + 2, 1).ToCharArray()[0];
+
+                    
+                    // ввод по штрихкоду
+                    if (startColumnLetter == 'B')
+                    {
+                        formulaParams[2] = (4 + priceType).ToString(); // 4 - magic number (сдвиг в ВПР)
+                        string newFormula = formulaParams[0] + ";" + formulaParams[1] + ";" + formulaParams[2] + ";" + formulaParams[3];
+                        c.Offset[0, 8].FormulaLocal = newFormula;
+                        continue;
+                    }
+
+                    // ввод по артикулу
+                    if (startColumnLetter == 'C')
+                    {
+                        formulaParams[2] = (3 + priceType).ToString(); // 3 - magic number
+                        string newFormula = formulaParams[0] + ";" + formulaParams[1] + ";" + formulaParams[2] + ";" + formulaParams[3];
+                        c.Offset[0, 8].FormulaLocal = newFormula;
+                        continue;
+                    }
+
+                    // ввод по штрихкоду упаковки
+                    if (startColumnLetter == 'A')
+                    {
+                        formulaParams[2] = (7 + priceType).ToString(); // 7 - magic number
+                        string newFormula = formulaParams[0] + ";" + formulaParams[1] + ";" + formulaParams[2] + ";" + formulaParams[3];
+                        c.Offset[0, 8].FormulaLocal = newFormula;
+                        continue;
+                    }
+                }
+            }
+        }
+
+
+                
         private static string GetRangeName(int row, int col)
         {
             var colChar = (char)(col + 64);

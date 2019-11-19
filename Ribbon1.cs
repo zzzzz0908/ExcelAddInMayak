@@ -51,7 +51,19 @@ namespace ExcelAddIn1
         private void button9_Click(object sender, RibbonControlEventArgs e)
         {
             // закупочная цена
+            Invoice.ChangePriceType(0);
+        }
 
+        private void button10_Click(object sender, RibbonControlEventArgs e)
+        {
+            // оптовая цена
+            Invoice.ChangePriceType(1);
+        }
+
+        private void button11_Click(object sender, RibbonControlEventArgs e)
+        {
+            // розничная цена
+            Invoice.ChangePriceType(2);
         }
     }
 }

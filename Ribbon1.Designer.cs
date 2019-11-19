@@ -37,16 +37,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ribbon1));
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group1 = this.Factory.CreateRibbonGroup();
-            this.group2 = this.Factory.CreateRibbonGroup();
-            this.group3 = this.Factory.CreateRibbonGroup();
             this.button1 = this.Factory.CreateRibbonButton();
             this.button2 = this.Factory.CreateRibbonButton();
             this.button8 = this.Factory.CreateRibbonButton();
             this.button3 = this.Factory.CreateRibbonButton();
             this.button4 = this.Factory.CreateRibbonButton();
             this.button5 = this.Factory.CreateRibbonButton();
+            this.group2 = this.Factory.CreateRibbonGroup();
             this.button6 = this.Factory.CreateRibbonButton();
             this.button7 = this.Factory.CreateRibbonButton();
+            this.group3 = this.Factory.CreateRibbonGroup();
             this.button9 = this.Factory.CreateRibbonButton();
             this.button10 = this.Factory.CreateRibbonButton();
             this.button11 = this.Factory.CreateRibbonButton();
@@ -75,21 +75,6 @@
             this.group1.Items.Add(this.button5);
             this.group1.Label = "Накладная";
             this.group1.Name = "group1";
-            // 
-            // group2
-            // 
-            this.group2.Items.Add(this.button6);
-            this.group2.Items.Add(this.button7);
-            this.group2.Label = "Ценники";
-            this.group2.Name = "group2";
-            // 
-            // group3
-            // 
-            this.group3.Items.Add(this.button9);
-            this.group3.Items.Add(this.button10);
-            this.group3.Items.Add(this.button11);
-            this.group3.Label = "Цены";
-            this.group3.Name = "group3";
             // 
             // button1
             // 
@@ -139,6 +124,13 @@
             this.button5.Name = "button5";
             this.button5.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button5_Click);
             // 
+            // group2
+            // 
+            this.group2.Items.Add(this.button6);
+            this.group2.Items.Add(this.button7);
+            this.group2.Label = "Ценники";
+            this.group2.Name = "group2";
+            // 
             // button6
             // 
             this.button6.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -157,6 +149,14 @@
             this.button7.ShowImage = true;
             this.button7.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.Button7_Click);
             // 
+            // group3
+            // 
+            this.group3.Items.Add(this.button9);
+            this.group3.Items.Add(this.button10);
+            this.group3.Items.Add(this.button11);
+            this.group3.Label = "Цены";
+            this.group3.Name = "group3";
+            // 
             // button9
             // 
             this.button9.Label = "Закупка";
@@ -167,11 +167,13 @@
             // 
             this.button10.Label = "Оптовая";
             this.button10.Name = "button10";
+            this.button10.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button10_Click);
             // 
             // button11
             // 
             this.button11.Label = "Розница";
             this.button11.Name = "button11";
+            this.button11.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button11_Click);
             // 
             // Ribbon1
             // 
