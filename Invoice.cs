@@ -80,6 +80,9 @@ namespace ExcelAddIn1
                     var bigSum = activeSheet.Range["O1"];
                     bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 13);
 
+                    // прокрутка экрана
+                    c.Offset[1, 1 - inputCol].Activate();
+
                     break;
                 }
             }
@@ -152,6 +155,9 @@ namespace ExcelAddIn1
 
                     var bigSum = activeSheet.Range["O1"];
                     bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 13);
+
+                    // прокрутка экрана
+                    c.Offset[1, 1 - inputCol].Activate();
 
                     break;
                 }
@@ -229,6 +235,9 @@ namespace ExcelAddIn1
 
                     var bigSum = activeSheet.Range["O1"];
                     bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 13);
+
+                    // прокрутка экрана
+                    c.Offset[1, 1 - inputCol].Activate();
 
                     break;
                 }
