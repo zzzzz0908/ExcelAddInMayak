@@ -61,16 +61,21 @@ namespace ExcelAddIn1
                     else
                     {
                         // поля про скидку
-                        c.Offset[0, 14 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$H$7000;7;ЛОЖЬ)";
-                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$I$7000;8;ЛОЖЬ)";
-                        c.Offset[0, 13 - inputCol].FormulaLocal = $"=ЕСЛИ(N{row}=\"Да\";ЕСЛИ(O{row}<$M$2; O{row};$M$2); 0)";
+                        c.Offset[0, 16 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$H$7000;7;ЛОЖЬ)";
+                        c.Offset[0, 17 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$I$7000;8;ЛОЖЬ)";
+                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ЕСЛИ(P{row}=\"Да\";ЕСЛИ(Q{row}<$M$2; Q{row};$M$2); 0)";
                     }
 
-                    c.Offset[0, 10 - inputCol].FormulaLocal = $"=I{row}*(1-M{row}/100)";
-                    c.Offset[0, 11 - inputCol].FormulaLocal = $"=J{row}*H{row}";
+                    c.Offset[0, 10 - inputCol].FormulaLocal = $"=ОКРУГЛ(I{row}*(1-O{row}/100);2)";
+                    c.Offset[0, 11 - inputCol].FormulaLocal = $"=H{row}*I{row}";
+                    c.Offset[0, 12 - inputCol].FormulaLocal = $"=K{row}-M{row}";
+                    c.Offset[0, 13 - inputCol].FormulaLocal = $"=J{row}*H{row}";
 
-                    c.Offset[1, 10 - inputCol].Value2 = "Итого:";                    
+
+                    c.Offset[1, 10 - inputCol].Value2 = "Итого:";
                     c.Offset[1, 11 - inputCol].FormulaLocal = $"=СУММ(K{FIRST_LINE}:K{row})";
+                    c.Offset[1, 12 - inputCol].FormulaLocal = $"=СУММ(L{FIRST_LINE}:L{row})";
+                    c.Offset[1, 13 - inputCol].FormulaLocal = $"=СУММ(M{FIRST_LINE}:M{row})";
 
                     var bigSum = activeSheet.Range["O1"];
                     bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 11);
@@ -129,16 +134,21 @@ namespace ExcelAddIn1
                     else
                     {
                         // поля про скидку
-                        c.Offset[0, 14 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$H$7000;6;ЛОЖЬ)";
-                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$I$7000;7;ЛОЖЬ)";
-                        c.Offset[0, 13 - inputCol].FormulaLocal = $"=ЕСЛИ(N{row}=\"Да\";ЕСЛИ(O{row}<$M$2; O{row};$M$2); 0)";
+                        c.Offset[0, 16 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$H$7000;6;ЛОЖЬ)";
+                        c.Offset[0, 17 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$I$7000;7;ЛОЖЬ)";
+                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ЕСЛИ(P{row}=\"Да\";ЕСЛИ(Q{row}<$M$2; Q{row};$M$2); 0)";
                     }
 
-                    c.Offset[0, 10 - inputCol].FormulaLocal = $"=I{row}*(1-M{row}/100)";
-                    c.Offset[0, 11 - inputCol].FormulaLocal = $"=J{row}*H{row}";
+                    c.Offset[0, 10 - inputCol].FormulaLocal = $"=ОКРУГЛ(I{row}*(1-O{row}/100);2)";
+                    c.Offset[0, 11 - inputCol].FormulaLocal = $"=H{row}*I{row}";
+                    c.Offset[0, 12 - inputCol].FormulaLocal = $"=K{row}-M{row}";
+                    c.Offset[0, 13 - inputCol].FormulaLocal = $"=J{row}*H{row}";
+
 
                     c.Offset[1, 10 - inputCol].Value2 = "Итого:";
                     c.Offset[1, 11 - inputCol].FormulaLocal = $"=СУММ(K{FIRST_LINE}:K{row})";
+                    c.Offset[1, 12 - inputCol].FormulaLocal = $"=СУММ(L{FIRST_LINE}:L{row})";
+                    c.Offset[1, 13 - inputCol].FormulaLocal = $"=СУММ(M{FIRST_LINE}:M{row})";
 
                     var bigSum = activeSheet.Range["O1"];
                     bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 11);
@@ -201,16 +211,21 @@ namespace ExcelAddIn1
                     else
                     {
                         // поля про скидку
-                        c.Offset[0, 14 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;10;ЛОЖЬ)";
-                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;11;ЛОЖЬ)";
-                        c.Offset[0, 13 - inputCol].FormulaLocal = $"=ЕСЛИ(N{row}=\"Да\";ЕСЛИ(O{row}<$M$2; O{row};$M$2); 0)";
+                        c.Offset[0, 16 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;10;ЛОЖЬ)";
+                        c.Offset[0, 17 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;11;ЛОЖЬ)";
+                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ЕСЛИ(P{row}=\"Да\";ЕСЛИ(Q{row}<$M$2; Q{row};$M$2); 0)";
                     }
 
-                    c.Offset[0, 10 - inputCol].FormulaLocal = $"=I{row}*(1-M{row}/100)";
-                    c.Offset[0, 11 - inputCol].FormulaLocal = $"=J{row}*H{row}";
+                    c.Offset[0, 10 - inputCol].FormulaLocal = $"=ОКРУГЛ(I{row}*(1-O{row}/100);2)";
+                    c.Offset[0, 11 - inputCol].FormulaLocal = $"=H{row}*I{row}";
+                    c.Offset[0, 12 - inputCol].FormulaLocal = $"=K{row}-M{row}";
+                    c.Offset[0, 13 - inputCol].FormulaLocal = $"=J{row}*H{row}";
+
 
                     c.Offset[1, 10 - inputCol].Value2 = "Итого:";
                     c.Offset[1, 11 - inputCol].FormulaLocal = $"=СУММ(K{FIRST_LINE}:K{row})";
+                    c.Offset[1, 12 - inputCol].FormulaLocal = $"=СУММ(L{FIRST_LINE}:L{row})";
+                    c.Offset[1, 13 - inputCol].FormulaLocal = $"=СУММ(M{FIRST_LINE}:M{row})";
 
                     var bigSum = activeSheet.Range["O1"];
                     bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 11);
