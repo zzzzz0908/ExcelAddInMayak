@@ -23,6 +23,9 @@ namespace ExcelAddIn1
             
             var range = activeSheet.Range[rangeName];
 
+            int inputCol = 5;
+            string valueSheet = "Price";
+            
             foreach (Excel.Range c in range.Cells)
             {
                 string value = Convert.ToString(c.Value2);
@@ -30,44 +33,47 @@ namespace ExcelAddIn1
                 if (text == value)
                 {
                     // добавить проверку, что есть число в количкстве ?
-                    c.Offset[0, 1].Value2++;
+                    c.Offset[0, 7 - inputCol].Value2++;
                     break;
                 }
                 else if (value == null)
                 {
-                    c.Value2 = text;
-                    c.Offset[0, 1].Value2 = 1;
-
                     int row = c.Row;
-                    c.Offset[0, -4].Value2 = row - FIRST_LINE + 1;
 
-                    c.Offset[0, -3].FormulaLocal = $"=ВПР(E{row};Price!$B$2:$G$7000;2;ЛОЖЬ)";
-                    c.Offset[0, -2].FormulaLocal = $"=ВПР(E{row};Price!$B$2:$G$7000;3;ЛОЖЬ)";
-                    c.Offset[0, 2].FormulaLocal = $"=ВПР(E{row};Price!$B$2:$G$7000;{4 + priceType};ЛОЖЬ)";
-                    c.Offset[0, -1].Value2 = "шт.";
+                    c.Value2 = text;              
+                    
+                    string inputCellName = GetRangeName(row, inputCol);
+
+                    c.Offset[0, 1 - inputCol].Value2 = row - FIRST_LINE + 1;
+                    c.Offset[0, 2 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$G$7000;2;ЛОЖЬ)";
+                    c.Offset[0, 3 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$G$7000;3;ЛОЖЬ)";
+                    c.Offset[0, 4 - inputCol].Value2 = "шт.";
+
+                    c.Offset[0, 6 - inputCol].Value2 = 1;
+                    c.Offset[0, 7 - inputCol].Value2 = 1;
+                    c.Offset[0, 8 - inputCol].FormulaLocal = $"=F{row}*G{row}";
+                    c.Offset[0, 9 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$G$7000;{4 + priceType};ЛОЖЬ)";                    
 
                     if (priceType == 0)
                     {
-                        c.Offset[0, 6].Value2 = 0;
+                        c.Offset[0, 13 - inputCol].Value2 = 0;
                     }
                     else
                     {
                         // поля про скидку
-                        c.Offset[0, 7].FormulaLocal = $"=ВПР(E{row};Price!$B$2:$H$7000;7;ЛОЖЬ)";
-                        c.Offset[0, 8].FormulaLocal = $"=ВПР(E{row};Price!$B$2:$I$7000;8;ЛОЖЬ)";
-                        c.Offset[0, 6].FormulaLocal = $"=ЕСЛИ(L{row}=\"Да\";ЕСЛИ(M{row}<$M$2; M{row};$M$2); 0)";
+                        c.Offset[0, 14 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$H$7000;7;ЛОЖЬ)";
+                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$I$7000;8;ЛОЖЬ)";
+                        c.Offset[0, 13 - inputCol].FormulaLocal = $"=ЕСЛИ(N{row}=\"Да\";ЕСЛИ(O{row}<$M$2; O{row};$M$2); 0)";
                     }
 
-                    c.Offset[0, 3].FormulaLocal = $"=G{row}*(1-K{row}/100)";
+                    c.Offset[0, 10 - inputCol].FormulaLocal = $"=I{row}*(1-M{row}/100)";
+                    c.Offset[0, 11 - inputCol].FormulaLocal = $"=J{row}*H{row}";
 
-                    c.Offset[0, 4].FormulaLocal = $"=H{row}*F{row}";
+                    c.Offset[1, 10 - inputCol].Value2 = "Итого:";                    
+                    c.Offset[1, 11 - inputCol].FormulaLocal = $"=СУММ(K{FIRST_LINE}:K{row})";
 
-                    c.Offset[1, 3].Value2 = "Итого:";
-                    //c.Offset[1, 2].Font.Bold = true;
-                    c.Offset[1, 4].FormulaLocal = $"=СУММ(I{FIRST_LINE}:I{row})";
-
-                    var bigSum = activeSheet.Range["O3"];
-                    bigSum.FormulaLocal = $"=I{row + 1}";
+                    var bigSum = activeSheet.Range["O1"];
+                    bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 11);
 
                     break;
                 }
@@ -87,6 +93,9 @@ namespace ExcelAddIn1
             string range = $"B{FIRST_LINE}:B{FIRST_LINE + 500}"; // столбик артикулов
             var cell = activeSheet.Range[range];
 
+            int inputCol = 2;
+            string valueSheet = "Price";
+
             foreach (Excel.Range c in cell.Cells)
             {
                 string value = Convert.ToString(c.Value2);
@@ -94,45 +103,117 @@ namespace ExcelAddIn1
                 if (text == value)
                 {
                     // добавить проверку, что есть число в количкстве ?
-                    c.Offset[0, 4].Value2++;
+                    c.Offset[0, 7 - inputCol].Value2++;
                     break;
                 }
                 else if (value == null)
                 {
-                    c.Value2 = text;
-
                     int row = c.Row;
-                    c.Offset[0, -1].Value2 = row - FIRST_LINE + 1;
+                    c.Value2 = text;
+                    string inputCellName = GetRangeName(row, inputCol);
 
-                    c.Offset[0, 1].FormulaLocal = $"=ВПР(B{row};Price!$C$2:$G$7000;2;ЛОЖЬ)";
-                    c.Offset[0, 2].Value2 = "шт.";
+                    c.Offset[0, 1 - inputCol].Value2 = row - FIRST_LINE + 1;
 
-                    c.Offset[0, 3].Value2 = -1;
-                    c.Offset[0, 4].Value2 = 1;
-                    c.Offset[0, 5].FormulaLocal = $"=ВПР(B{row};Price!$C$2:$G$7000;{3 + priceType};ЛОЖЬ)";
+                    c.Offset[0, 3 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$G$7000;2;ЛОЖЬ)";
+                    c.Offset[0, 4 - inputCol].Value2 = "шт.";
+                    c.Offset[0, 5 - inputCol].Value2 = -1;
+                    c.Offset[0, 6 - inputCol].Value2 = 1;
+                    c.Offset[0, 7 - inputCol].Value2 = 1;
+                    c.Offset[0, 8 - inputCol].FormulaLocal = $"=F{row}*G{row}";
+                    c.Offset[0, 9 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$G$7000;{3 + priceType};ЛОЖЬ)";
 
                     if (priceType == 0)
                     {
-                        c.Offset[0, 9].Value2 = 0;
+                        c.Offset[0, 13 - inputCol].Value2 = 0;
                     }
                     else
                     {
                         // поля про скидку
-                        c.Offset[0, 10].FormulaLocal = $"=ВПР(B{row};Price!$C$2:$H$7000;6;ЛОЖЬ)";
-                        c.Offset[0, 11].FormulaLocal = $"=ВПР(B{row};Price!$C$2:$I$7000;7;ЛОЖЬ)";
-                        c.Offset[0, 9].FormulaLocal = $"=ЕСЛИ(L{row}=\"Да\";ЕСЛИ(M{row}<$M$2; M{row};$M$2); 0)";
+                        c.Offset[0, 14 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$H$7000;6;ЛОЖЬ)";
+                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$I$7000;7;ЛОЖЬ)";
+                        c.Offset[0, 13 - inputCol].FormulaLocal = $"=ЕСЛИ(N{row}=\"Да\";ЕСЛИ(O{row}<$M$2; O{row};$M$2); 0)";
                     }
 
-                    c.Offset[0, 6].FormulaLocal = $"=G{row}*(1-K{row}/100)";
+                    c.Offset[0, 10 - inputCol].FormulaLocal = $"=I{row}*(1-M{row}/100)";
+                    c.Offset[0, 11 - inputCol].FormulaLocal = $"=J{row}*H{row}";
 
-                    c.Offset[0, 7].FormulaLocal = $"=H{row}*F{row}";
+                    c.Offset[1, 10 - inputCol].Value2 = "Итого:";
+                    c.Offset[1, 11 - inputCol].FormulaLocal = $"=СУММ(K{FIRST_LINE}:K{row})";
 
-                    c.Offset[1, 6].Value2 = "Итого:";
-                    //c.Offset[1, 2].Font.Bold = true;
-                    c.Offset[1, 7].FormulaLocal = $"=СУММ(I{FIRST_LINE}:I{row})";
+                    var bigSum = activeSheet.Range["O1"];
+                    bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 11);
 
-                    var bigSum = activeSheet.Range["O3"];
-                    bigSum.FormulaLocal = $"=I{row + 1}";
+                    break;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Добавляет запись по штрихкоду упаковки (ящика).
+        /// </summary>
+        /// <param name="text"> Штрихкод. </param>
+        /// <param name="priceType"> Тип цены. </param>
+        public static void AddBoxLine(string text, int priceType = 1)
+        {
+            var activeSheet = Globals.ThisAddIn.Application.ActiveSheet as Excel.Worksheet;
+
+            // столбик штрихкодов
+            string rangeName = $"E{FIRST_LINE}:E{FIRST_LINE + 500}";
+
+            var range = activeSheet.Range[rangeName];
+
+            int inputCol = 5;
+            string valueSheet = "BoxPrice";
+
+            foreach (Excel.Range c in range.Cells)
+            {
+                string value = Convert.ToString(c.Value2);
+
+                if (text == value)
+                {
+                    // добавить проверку, что есть число в количкстве ?
+                    c.Offset[0, 7 - inputCol].Value2++;
+                    break;
+                }
+                else if (value == null)
+                {
+                    int row = c.Row;
+
+                    c.Value2 = text;
+
+                    string inputCellName = GetRangeName(row, inputCol);
+
+                    c.Offset[0, 1 - inputCol].Value2 = row - FIRST_LINE + 1;
+                    c.Offset[0, 2 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;5;ЛОЖЬ)";
+                    c.Offset[0, 3 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;6;ЛОЖЬ)";
+                    c.Offset[0, 4 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;3;ЛОЖЬ)";
+
+                    c.Offset[0, 6 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;2;ЛОЖЬ)";
+                    c.Offset[0, 7 - inputCol].Value2 = 1;
+                    c.Offset[0, 8 - inputCol].FormulaLocal = $"=F{row}*G{row}";
+                    c.Offset[0, 9 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;{7 + priceType};ЛОЖЬ)";
+
+                    if (priceType == 0)
+                    {
+                        c.Offset[0, 13 - inputCol].Value2 = 0;
+                    }
+                    else
+                    {
+                        // поля про скидку
+                        c.Offset[0, 14 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;10;ЛОЖЬ)";
+                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;11;ЛОЖЬ)";
+                        c.Offset[0, 13 - inputCol].FormulaLocal = $"=ЕСЛИ(N{row}=\"Да\";ЕСЛИ(O{row}<$M$2; O{row};$M$2); 0)";
+                    }
+
+                    c.Offset[0, 10 - inputCol].FormulaLocal = $"=I{row}*(1-M{row}/100)";
+                    c.Offset[0, 11 - inputCol].FormulaLocal = $"=J{row}*H{row}";
+
+                    c.Offset[1, 10 - inputCol].Value2 = "Итого:";
+                    c.Offset[1, 11 - inputCol].FormulaLocal = $"=СУММ(K{FIRST_LINE}:K{row})";
+
+                    var bigSum = activeSheet.Range["O1"];
+                    bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 11);
 
                     break;
                 }
@@ -192,7 +273,7 @@ namespace ExcelAddIn1
 
                     c.Offset[3, 0].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
                     c.Offset[3, 0].WrapText = false;
-                    c.Offset[3, 0].FormulaLocal = $"=РосРуб(I{row};I{row})";
+                    c.Offset[3, 0].FormulaLocal = $"=РосРуб(K{row};K{row})";
 
                     c.Offset[5, 1].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
                     c.Offset[5, 1].WrapText = false;
@@ -215,11 +296,11 @@ namespace ExcelAddIn1
 
 
                     // граница итого
-                    c.Offset[0, 7].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
-                    c.Offset[0, 8].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                    c.Offset[0, 9].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                    c.Offset[0, 10].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
 
                     //граница товаров
-                    cells = activeSheet.Range[$"A{FIRST_LINE}:I{row - 1}"];
+                    cells = activeSheet.Range[$"A{FIRST_LINE}:{GetRangeName(row - 1, 11)}"];
                     cells.Cells.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
 
                     break;
@@ -248,5 +329,14 @@ namespace ExcelAddIn1
             var column = activeSheet.Range["E1"];
             column.ColumnWidth = 0;
         }        
+
+
+        private static string GetRangeName(int row, int col)
+        {
+            var colChar = (char)(col + 64);
+            return colChar.ToString() + row.ToString();
+        }
+
+
     }
 }
