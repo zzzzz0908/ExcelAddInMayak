@@ -47,5 +47,11 @@ namespace ExcelAddIn1
             var inputForm = new InputForm("Упаковка") { inputType = InputForm.InputType.Box };
             inputForm.Show();
         }
+
+        private void button9_Click(object sender, RibbonControlEventArgs e)
+        {
+            // закупочная цена
+
+        }
     }
 }

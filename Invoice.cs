@@ -63,7 +63,7 @@ namespace ExcelAddIn1
                         // поля про скидку
                         c.Offset[0, 16 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$H$7000;7;ЛОЖЬ)";
                         c.Offset[0, 17 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$I$7000;8;ЛОЖЬ)";
-                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ЕСЛИ(P{row}=\"Да\";ЕСЛИ(Q{row}<$M$2; Q{row};$M$2); 0)";
+                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ЕСЛИ(P{row}=\"Да\";ЕСЛИ(Q{row}<$N$2; Q{row};$N$2); 0)";
                     }
 
                     c.Offset[0, 10 - inputCol].FormulaLocal = $"=ОКРУГЛ(I{row}*(1-O{row}/100);2)";
@@ -78,7 +78,7 @@ namespace ExcelAddIn1
                     c.Offset[1, 13 - inputCol].FormulaLocal = $"=СУММ(M{FIRST_LINE}:M{row})";
 
                     var bigSum = activeSheet.Range["O1"];
-                    bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 11);
+                    bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 13);
 
                     break;
                 }
@@ -136,7 +136,7 @@ namespace ExcelAddIn1
                         // поля про скидку
                         c.Offset[0, 16 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$H$7000;6;ЛОЖЬ)";
                         c.Offset[0, 17 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$I$7000;7;ЛОЖЬ)";
-                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ЕСЛИ(P{row}=\"Да\";ЕСЛИ(Q{row}<$M$2; Q{row};$M$2); 0)";
+                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ЕСЛИ(P{row}=\"Да\";ЕСЛИ(Q{row}<$N$2; Q{row};$N$2); 0)";
                     }
 
                     c.Offset[0, 10 - inputCol].FormulaLocal = $"=ОКРУГЛ(I{row}*(1-O{row}/100);2)";
@@ -151,7 +151,7 @@ namespace ExcelAddIn1
                     c.Offset[1, 13 - inputCol].FormulaLocal = $"=СУММ(M{FIRST_LINE}:M{row})";
 
                     var bigSum = activeSheet.Range["O1"];
-                    bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 11);
+                    bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 13);
 
                     break;
                 }
@@ -213,7 +213,7 @@ namespace ExcelAddIn1
                         // поля про скидку
                         c.Offset[0, 16 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;10;ЛОЖЬ)";
                         c.Offset[0, 17 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;11;ЛОЖЬ)";
-                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ЕСЛИ(P{row}=\"Да\";ЕСЛИ(Q{row}<$M$2; Q{row};$M$2); 0)";
+                        c.Offset[0, 15 - inputCol].FormulaLocal = $"=ЕСЛИ(P{row}=\"Да\";ЕСЛИ(Q{row}<$N$2; Q{row};$N$2); 0)";
                     }
 
                     c.Offset[0, 10 - inputCol].FormulaLocal = $"=ОКРУГЛ(I{row}*(1-O{row}/100);2)";
@@ -228,7 +228,7 @@ namespace ExcelAddIn1
                     c.Offset[1, 13 - inputCol].FormulaLocal = $"=СУММ(M{FIRST_LINE}:M{row})";
 
                     var bigSum = activeSheet.Range["O1"];
-                    bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 11);
+                    bigSum.FormulaLocal = "=" + GetRangeName(row + 1, 13);
 
                     break;
                 }
@@ -313,9 +313,12 @@ namespace ExcelAddIn1
                     // граница итого
                     c.Offset[0, 9].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
                     c.Offset[0, 10].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                    c.Offset[0, 11].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                    c.Offset[0, 12].Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+
 
                     //граница товаров
-                    cells = activeSheet.Range[$"A{FIRST_LINE}:{GetRangeName(row - 1, 11)}"];
+                    cells = activeSheet.Range[$"A{FIRST_LINE}:{GetRangeName(row - 1, 13)}"];
                     cells.Cells.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
 
                     break;
