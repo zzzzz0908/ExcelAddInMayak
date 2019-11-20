@@ -56,7 +56,7 @@ namespace ExcelAddIn1
 
                     if (priceType == 0)
                     {
-                        c.Offset[0, 13 - inputCol].Value2 = 0;
+                        c.Offset[0, 15 - inputCol].Value2 = 0;
                     }
                     else
                     {
@@ -132,7 +132,7 @@ namespace ExcelAddIn1
 
                     if (priceType == 0)
                     {
-                        c.Offset[0, 13 - inputCol].Value2 = 0;
+                        c.Offset[0, 15 - inputCol].Value2 = 0;
                     }
                     else
                     {
@@ -212,7 +212,7 @@ namespace ExcelAddIn1
 
                     if (priceType == 0)
                     {
-                        c.Offset[0, 13 - inputCol].Value2 = 0;
+                        c.Offset[0, 15 - inputCol].Value2 = 0;
                     }
                     else
                     {
