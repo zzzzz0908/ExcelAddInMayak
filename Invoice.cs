@@ -297,7 +297,7 @@ namespace ExcelAddIn1
 
                     c.Offset[3, 0].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
                     c.Offset[3, 0].WrapText = false;
-                    c.Offset[3, 0].FormulaLocal = $"=РосРуб(K{row};K{row})";
+                    c.Offset[3, 0].FormulaLocal = $"=РосРуб(M{row};M{row})";
 
                     c.Offset[5, 1].HorizontalAlignment = Excel.XlHAlign.xlHAlignLeft;
                     c.Offset[5, 1].WrapText = false;
