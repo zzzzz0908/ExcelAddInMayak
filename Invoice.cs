@@ -264,7 +264,7 @@ namespace ExcelAddIn1
                     int deleteRow = c.Row - 1;
                     if (deleteRow >= FIRST_LINE)
                     {
-                        range = $"A{c.Row - 1}:L{c.Row - 1}";
+                        range = $"A{c.Row - 1}:Q{c.Row - 1}";
                         activeSheet.Range[range].Delete();  // последние строки сами сдвигаются вверх, надо править формулу в сумме?
                     }
                     break;
