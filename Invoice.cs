@@ -8,6 +8,8 @@ namespace ExcelAddIn1
     {      
         // Константы
         private const int FIRST_LINE = 9;
+        private const int SEARCH_ROWS_COUNT = 50000;
+
 
         /// <summary>
         /// Добавляет запись по штрихкоду.
@@ -45,14 +47,14 @@ namespace ExcelAddIn1
                     string inputCellName = GetRangeName(row, inputCol);
 
                     c.Offset[0, 1 - inputCol].Value2 = row - FIRST_LINE + 1;
-                    c.Offset[0, 2 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$G$7000;2;ЛОЖЬ)";
-                    c.Offset[0, 3 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$G$7000;3;ЛОЖЬ)";
+                    c.Offset[0, 2 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$G${SEARCH_ROWS_COUNT};2;ЛОЖЬ)";
+                    c.Offset[0, 3 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$G${SEARCH_ROWS_COUNT};3;ЛОЖЬ)";
                     c.Offset[0, 4 - inputCol].Value2 = "шт.";
 
                     c.Offset[0, 6 - inputCol].Value2 = 1;
                     c.Offset[0, 7 - inputCol].Value2 = 1;
                     c.Offset[0, 8 - inputCol].FormulaLocal = $"=F{row}*G{row}";
-                    c.Offset[0, 9 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$G$7000;{4 + priceType};ЛОЖЬ)";                    
+                    c.Offset[0, 9 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$G${SEARCH_ROWS_COUNT};{4 + priceType};ЛОЖЬ)";                    
 
                     if (priceType == 0)
                     {
@@ -61,8 +63,8 @@ namespace ExcelAddIn1
                     else
                     {
                         // поля про скидку
-                        c.Offset[0, 16 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$H$7000;7;ЛОЖЬ)";
-                        c.Offset[0, 17 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$I$7000;8;ЛОЖЬ)";
+                        c.Offset[0, 16 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$H${SEARCH_ROWS_COUNT};7;ЛОЖЬ)";
+                        c.Offset[0, 17 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$B$2:$I${SEARCH_ROWS_COUNT};8;ЛОЖЬ)";
                         c.Offset[0, 15 - inputCol].FormulaLocal = $"=ЕСЛИ(P{row}=\"Да\";ЕСЛИ(Q{row}<$N$2; Q{row};$N$2); 0)";
                     }
 
@@ -122,13 +124,13 @@ namespace ExcelAddIn1
 
                     c.Offset[0, 1 - inputCol].Value2 = row - FIRST_LINE + 1;
 
-                    c.Offset[0, 3 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$G$7000;2;ЛОЖЬ)";
+                    c.Offset[0, 3 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$G${SEARCH_ROWS_COUNT};2;ЛОЖЬ)";
                     c.Offset[0, 4 - inputCol].Value2 = "шт.";
                     c.Offset[0, 5 - inputCol].Value2 = -1;
                     c.Offset[0, 6 - inputCol].Value2 = 1;
                     c.Offset[0, 7 - inputCol].Value2 = 1;
                     c.Offset[0, 8 - inputCol].FormulaLocal = $"=F{row}*G{row}";
-                    c.Offset[0, 9 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$G$7000;{3 + priceType};ЛОЖЬ)";
+                    c.Offset[0, 9 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$G${SEARCH_ROWS_COUNT};{3 + priceType};ЛОЖЬ)";
 
                     if (priceType == 0)
                     {
@@ -137,8 +139,8 @@ namespace ExcelAddIn1
                     else
                     {
                         // поля про скидку
-                        c.Offset[0, 16 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$H$7000;6;ЛОЖЬ)";
-                        c.Offset[0, 17 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$I$7000;7;ЛОЖЬ)";
+                        c.Offset[0, 16 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$H${SEARCH_ROWS_COUNT};6;ЛОЖЬ)";
+                        c.Offset[0, 17 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$C$2:$I${SEARCH_ROWS_COUNT};7;ЛОЖЬ)";
                         c.Offset[0, 15 - inputCol].FormulaLocal = $"=ЕСЛИ(P{row}=\"Да\";ЕСЛИ(Q{row}<$N$2; Q{row};$N$2); 0)";
                     }
 
@@ -201,14 +203,14 @@ namespace ExcelAddIn1
                     string inputCellName = GetRangeName(row, inputCol);
 
                     c.Offset[0, 1 - inputCol].Value2 = row - FIRST_LINE + 1;
-                    c.Offset[0, 2 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;5;ЛОЖЬ)";
-                    c.Offset[0, 3 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;6;ЛОЖЬ)";
-                    c.Offset[0, 4 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;3;ЛОЖЬ)";
+                    c.Offset[0, 2 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K${SEARCH_ROWS_COUNT};5;ЛОЖЬ)";
+                    c.Offset[0, 3 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K${SEARCH_ROWS_COUNT};6;ЛОЖЬ)";
+                    c.Offset[0, 4 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K${SEARCH_ROWS_COUNT};3;ЛОЖЬ)";
 
-                    c.Offset[0, 6 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;2;ЛОЖЬ)";
+                    c.Offset[0, 6 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K${SEARCH_ROWS_COUNT};2;ЛОЖЬ)";
                     c.Offset[0, 7 - inputCol].Value2 = 1;
                     c.Offset[0, 8 - inputCol].FormulaLocal = $"=F{row}*G{row}";
-                    c.Offset[0, 9 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;{7 + priceType};ЛОЖЬ)";
+                    c.Offset[0, 9 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K${SEARCH_ROWS_COUNT};{7 + priceType};ЛОЖЬ)";
 
                     if (priceType == 0)
                     {
@@ -217,8 +219,8 @@ namespace ExcelAddIn1
                     else
                     {
                         // поля про скидку
-                        c.Offset[0, 16 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;10;ЛОЖЬ)";
-                        c.Offset[0, 17 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K$7000;11;ЛОЖЬ)";
+                        c.Offset[0, 16 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K${SEARCH_ROWS_COUNT};10;ЛОЖЬ)";
+                        c.Offset[0, 17 - inputCol].FormulaLocal = $"=ВПР({inputCellName};{valueSheet}!$A$2:$K${SEARCH_ROWS_COUNT};11;ЛОЖЬ)";
                         c.Offset[0, 15 - inputCol].FormulaLocal = $"=ЕСЛИ(P{row}=\"Да\";ЕСЛИ(Q{row}<$N$2; Q{row};$N$2); 0)";
                     }
 
